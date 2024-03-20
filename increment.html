@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>
+            Increment Number by 1
+        </title>
+    </head>
+    <body>
+        <p id="valueToIncrement"> 0 </p>
+        <input type="button"value="Add One" onclick="incrementButton()"/>
+        <script>
+            function incrementButton()
+            {
+                var element = document.getElementById("valueToIncrement");
+                var value = element.innerHTML;
+
+                ++value;
+                document.getElementById("valueToIncrement").innerHTML = value; 
+            }
+        </script>
+    </body>
+</html>
+

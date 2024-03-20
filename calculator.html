@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Calculator App
+        </title>
+        <meta charset="utf-8"/>
+    </head>
+    <body>
+        <p id="mainValue">0</p>
+
+        <div class="input-btns">
+            <button onclick="ManageButtonPress(1)">1</button>
+            <button onclick="ManageButtonPress(2)">2</button>
+            <button onclick="ManageButtonPress(3)">3</button>
+            <button onclick="ManageButtonPress('Add')" style="margin-left:20px">+</button>
+            <br>
+            <button onclick="ManageButtonPress(4)">4</button>
+            <button onclick="ManageButtonPress(5)">5</button>
+            <button onclick="ManageButtonPress(6)">6</button>
+            <button onclick="ManageButtonPress('Subtract')" style="margin-left:20px">-</button>
+            <br>
+            <button onclick="ManageButtonPress(7)">7</button>
+            <button onclick="ManageButtonPress(8)">8</button>
+            <button onclick="ManageButtonPress(9)">9</button>
+            <button onclick="ManageButtonPress('Equals')" style="margin-left:20px">=</button>
+            <br>
+            <button onclick="ManageButtonPress(0)" style="margin-left:27px">0</button>
+        </div>
+
+        <p id="mainValue2">0</p>
+
+        <div class="input-btns2">
+            <button onclick="ManageButtonPress2(1)">1</button>
+            <button onclick="ManageButtonPress2(2)">2</button>
+            <button onclick="ManageButtonPress2(3)">3</button>
+            <button onclick="ManageButtonPress2('Add')" style="margin-left:20px">+</button>
+            <br>
+            <button onclick="ManageButtonPress2(4)">4</button>
+            <button onclick="ManageButtonPress2(5)">5</button>
+            <button onclick="ManageButtonPress2(6)">6</button>
+            <button onclick="ManageButtonPress2('Subtract')" style="margin-left:20px">-</button>
+            <br>
+            <button onclick="ManageButtonPress2(7)">7</button>
+            <button onclick="ManageButtonPress2(8)">8</button>
+            <button onclick="ManageButtonPress2(9)">9</button>
+            <button onclick="ManageButtonPress2('Equals')" style="margin-left:20px">=</button>
+            <br>
+            <button onclick="ManageButtonPress2(0)" style="margin-left:27px">0</button>
+        </div>
+
+        
+
+        <script>
+            class Calculator
+            {
+                constructor()
+                {
+                    this.orderOfOperations = [];
+                    this.operatorPushed = false;
+                    this.canCompleteOperation = true;
+                    this.finalValue = 0;
+                }
+
+                WriteNumber(buttonValue, currentValue)
+                {
+                    if (!this.operatorPushed)
+                    {
+                        currentValue = (currentValue * 10) + buttonValue;
+                    }
+                    if (this.operatorPushed)
+                    {
+                        currentValue = buttonValue;
+                        this.operatorPushed = false;
+                    }        
+
+                    return currentValue;
+                }
+
+                InsertOperator(operator, currentValue)
+                {
+                    if (!this.operatorPushed)
+                    {
+                        this.canCompleteOperation = true;
+                        this.orderOfOperations.push(currentValue);
+                        this.orderOfOperations.push(operator);
+                        this.operatorPushed = true;
+                    }
+        
+                }
+
+                CompleteOperation(currentValue)
+                {
+                    if (!this.operatorPushed && this.canCompleteOperation)
+                    {
+                        this.canCompleteOperation = false;
+                        this.orderOfOperations.push(currentValue);
+                        this.finalValue = this.orderOfOperations[0];
+
+                        for (var i = 1; i < this.orderOfOperations.length; i = i + 2)
+                        {
+                            if (this.orderOfOperations[i] === "Add")
+                            {
+                                this.finalValue = Number(this.finalValue) + Number(this.orderOfOperations[i + 1]);
+                            }
+                            else
+                            {
+                                this.finalValue = Number(this.finalValue) - Number(this.orderOfOperations[i + 1]);
+                            }
+                        }
+
+                        currentValue = this.finalValue;
+                        this.orderOfOperations = [];
+                    
+                        return currentValue;
+                    }
+                }
+            }
+
+            var calc = new Calculator();
+
+            function ManageButtonPress(buttonValue)
+            {
+                if (buttonValue === "Add" || buttonValue === "Subtract")
+                {
+                    calc.InsertOperator(buttonValue, document.getElementById("mainValue").innerHTML)
+                }
+                else if(buttonValue === "Equals")
+                {
+                    document.getElementById("mainValue").innerHTML = calc.CompleteOperation(document.getElementById("mainValue").innerHTML);
+                }
+                else
+                {
+                    document.getElementById("mainValue").innerHTML = calc.WriteNumber(buttonValue, document.getElementById("mainValue").innerHTML)
+                }
+            }
+
+            var calc2 = new Calculator();
+
+            function ManageButtonPress2(buttonValue)
+            {
+                if (buttonValue === "Add" || buttonValue === "Subtract")
+                {
+                    calc2.InsertOperator(buttonValue, document.getElementById("mainValue2").innerHTML)
+                }
+                else if(buttonValue === "Equals")
+                {
+                    document.getElementById("mainValue2").innerHTML = calc2.CompleteOperation(document.getElementById("mainValue2").innerHTML);
+                }
+                else
+                {
+                    document.getElementById("mainValue2").innerHTML = calc2.WriteNumber(buttonValue, document.getElementById("mainValue2").innerHTML)
+                }
+            }
+        </script>
+    </body>
+</html>
